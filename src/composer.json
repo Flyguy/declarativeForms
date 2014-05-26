@@ -1,0 +1,15 @@
+{
+    "name": "Flyguy/declarativeForms",
+    "description": "Lib for the simple declarative forms making",
+    "minimum-stability": "dev",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Flyguy",
+            "email": "flyguy.by@gmail.com"
+        }
+    ],
+    "require": {
+            "php":">=5.3.23"
+    }
+}
