@@ -7,6 +7,7 @@ interface IField {
     public function id();
     public function name();
     public function bind($prefix, $postfix, $name, $value);
+    public function get_base_name();
     public function add_error($error);
     public function add_errors($errors);
     public function &errors();

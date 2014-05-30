@@ -40,6 +40,14 @@ abstract class Base implements IField {
         if(!$this->bound) throw new \Exception("Can't get attributes from the unbound field!");
     }
 
+    public function get_base_name() {
+        $name = get_class();
+        if(($pos=strrpos($name, '\\'))!==FALSE) {
+            return substr($name, $pos+1);
+        }
+        return $name;
+    }
+
     public function data($default=false) {
         $this->check_bound();
         return (!$default || strlen($this->data)>0 ? $this->data : $this->default);
