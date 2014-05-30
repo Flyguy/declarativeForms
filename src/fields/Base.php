@@ -41,7 +41,7 @@ abstract class Base implements IField {
     }
 
     public function get_base_name() {
-        $name = get_class();
+        $name = get_called_class();
         if(($pos=strrpos($name, '\\'))!==FALSE) {
             return substr($name, $pos+1);
         }
