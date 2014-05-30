@@ -6,9 +6,9 @@ use declarativeForms\ValidationError;
 abstract class Group extends Displayed {
     protected $choices;
     protected $multiple = false;
-    public function __construct ($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null) {
+    public function __construct ($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $extra=null) {
         $this->choices = $choices;
-        parent::__construct($default, $validators, $label,  $hint);
+        parent::__construct($default, $validators, $label,  $hint, $extra);
     }
 
     public function set_choices($choices) {
@@ -44,12 +44,13 @@ abstract class Group extends Displayed {
 
     public static function create(array $attributes=array()) {
         return new static(
-                self::get_arr_item($attributes, 'default'),
-                self::get_arr_item($attributes, 'validators', Array()),
-                self::get_arr_item($attributes, 'label'),
-                self::get_arr_item($attributes, 'hint'),
-                self::get_arr_item($attributes, 'choices'),
-                self::get_arr_item($attributes, 'type')
+                self::pop_arr_item($attributes, 'default'),
+                self::pop_arr_item($attributes, 'validators', Array()),
+                self::pop_arr_item($attributes, 'label'),
+                self::pop_arr_item($attributes, 'hint'),
+                self::pop_arr_item($attributes, 'choices'),
+                self::pop_arr_item($attributes, 'type'),
+                $attributes
         );
     }
 

@@ -10,15 +10,17 @@ abstract class Base implements IField {
     protected $id;
     protected $raw_data;
     protected $data;
+    protected $extra;
     protected $default;
     protected $errors = Array();
     protected $validators = Array();
     protected $bound = false;
-    public function __construct($default=null, array $validators=Array()) {
+    public function __construct($default=null, array $validators=Array(), array $extra=Array()) {
         $this->default = $default;
         foreach($validators as $validator) {
             $this->validators[$validator[0]] = $validator[1];
         }
+        $this->extra = $extra;
         $standard_validators = $this->assign_standard_validators();
         foreach($standard_validators as $validator) {
             $type = $validator[0];
@@ -26,6 +28,10 @@ abstract class Base implements IField {
                 $this->validators[$type] = $validator[1];
             }
         }
+    }
+
+    public function extra($attr) {
+        return array_key_exists($attr, $this->extra) ? $this->extra[$attr] : NULL;
     }
 
     protected function __clone() {}
@@ -90,9 +96,11 @@ abstract class Base implements IField {
         return trim($data);
     }
 
-    protected static function get_arr_item($arr, $item_name, $default = null) {
+    protected static function pop_arr_item(&$arr, $item_name, $default = null) {
         if (array_key_exists($item_name, $arr)) {
-            return $arr[$item_name];
+            $val = $arr[$item_name];
+            unset($arr[$item_name]);
+            return $val;
         } else {
             return $default;
         }
@@ -159,8 +167,9 @@ abstract class Base implements IField {
 
     public static function create(array $attributes = array()) {
         return new static(
-                self::get_arr_item($attributes, 'default'),
-                self::get_arr_item($attributes, 'validators', Array())
+                self::pop_arr_item($attributes, 'default'),
+                self::pop_arr_item($attributes, 'validators', Array()),
+                $attributes
         );
     }
 }

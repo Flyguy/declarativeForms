@@ -3,19 +3,20 @@ namespace declarativeForms\fields;
 
 
 class Select extends Group {
-    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False) {
+    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False, array $extra=Array()) {
         $this->multiple = $multiple;
         parent::__construct($default, $validators, $label, $hint, $choices);
     }
 
     public static function create(array $attributes=Array()) {
         return new static(
-                self::get_arr_item($attributes, 'default'),
-                self::get_arr_item($attributes, 'validators', array()),
-                self::get_arr_item($attributes, 'label'),
-                self::get_arr_item($attributes, 'hint'),
-                self::get_arr_item($attributes, 'choices'),
-                self::get_arr_item($attributes, 'multiple')
+                self::pop_arr_item($attributes, 'default'),
+                self::pop_arr_item($attributes, 'validators', array()),
+                self::pop_arr_item($attributes, 'label'),
+                self::pop_arr_item($attributes, 'hint'),
+                self::pop_arr_item($attributes, 'choices'),
+                self::pop_arr_item($attributes, 'multiple'),
+                $attributes
         );
     }
 

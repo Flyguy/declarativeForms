@@ -12,10 +12,10 @@ class GroupWithExtra extends Group implements \IteratorAggregate {
      */
     protected $extras;
 
-    public function __construct(array $extra_fields, $default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False) {
+    public function __construct(array $extra_fields, $default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False, $extra=null) {
         $this->multiple = $multiple;
         $this->extra_fields = $extra_fields;
-        parent::__construct($default, $validators, $label, $hint, $choices);
+        parent::__construct($default, $validators, $label, $hint, $choices, $extra);
     }
 
     protected function __clone() {
@@ -29,12 +29,13 @@ class GroupWithExtra extends Group implements \IteratorAggregate {
     public static function create(array $attributes=Array()) {
         return new static(
                 $attributes['extra_fields'],
-                self::get_arr_item($attributes, 'default'),
-                self::get_arr_item($attributes, 'validators', array()),
-                self::get_arr_item($attributes, 'label'),
-                self::get_arr_item($attributes, 'hint'),
-                self::get_arr_item($attributes, 'choices'),
-                self::get_arr_item($attributes, 'multiple')
+                self::pop_arr_item($attributes, 'default'),
+                self::pop_arr_item($attributes, 'validators', array()),
+                self::pop_arr_item($attributes, 'label'),
+                self::pop_arr_item($attributes, 'hint'),
+                self::pop_arr_item($attributes, 'choices'),
+                self::pop_arr_item($attributes, 'multiple'),
+                $attributes
         );
     }
 
