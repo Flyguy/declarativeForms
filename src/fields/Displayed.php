@@ -5,10 +5,10 @@ namespace declarativeForms\fields;
 abstract class Displayed extends Base {
     protected $label;
     protected $hint;
-    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $extra=null) {
+    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, array $extra=Array()) {
         $this->label = $label;
         $this->hint  = $hint;
-        parent::__construct($default, $validators, $extra=null);
+        parent::__construct($default, $validators, $extra);
     }
 
     public function generateLabel($name) {

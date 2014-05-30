@@ -5,7 +5,7 @@ namespace declarativeForms\fields;
 class Select extends Group {
     public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False, array $extra=Array()) {
         $this->multiple = $multiple;
-        parent::__construct($default, $validators, $label, $hint, $choices);
+        parent::__construct($default, $validators, $label, $hint, $choices, $extra);
     }
 
     public static function create(array $attributes=Array()) {

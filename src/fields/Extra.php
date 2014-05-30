@@ -12,9 +12,9 @@ class Extra extends Base {
      * @param mixed $default
      * @param array $validators
      */
-    public function __construct(array $fields, $default=null, array $validators=Array()) {
+    public function __construct(array $fields, $default=null, array $validators=Array(), array $extra=Array()) {
         $this->fields = $fields;
-        parent::__construct($default, $validators);
+        parent::__construct($default, $validators, $extra);
     }
 
     public function validate() {

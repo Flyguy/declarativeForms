@@ -12,7 +12,7 @@ class GroupWithExtra extends Group implements \IteratorAggregate {
      */
     protected $extras;
 
-    public function __construct(array $extra_fields, $default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False, $extra=null) {
+    public function __construct(array $extra_fields, $default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $multiple=False,array $extra=Array()) {
         $this->multiple = $multiple;
         $this->extra_fields = $extra_fields;
         parent::__construct($default, $validators, $label, $hint, $choices, $extra);

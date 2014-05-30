@@ -6,7 +6,7 @@ use declarativeForms\ValidationError;
 abstract class Group extends Displayed {
     protected $choices;
     protected $multiple = false;
-    public function __construct ($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, $extra=null) {
+    public function __construct ($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null,array $extra=Array()) {
         $this->choices = $choices;
         parent::__construct($default, $validators, $label,  $hint, $extra);
     }
