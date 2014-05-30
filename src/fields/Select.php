@@ -34,7 +34,7 @@ class Select extends Group {
                         $selected = true;
                     }
                 }
-                $select.='<option value="'.htmlspecialchars((string)$choice).'"'.($selected ? ' selected="selected"':'').'>'.htmlspecialchars($label).'</option>';
+                $select.='<option value="'.htmlspecialchars($choice).'"'.($selected ? ' selected="selected"':'').'>'.htmlspecialchars((string)$label).'</option>';
             }
         }
         return $select.'</select>';
