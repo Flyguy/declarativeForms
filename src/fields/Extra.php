@@ -79,4 +79,15 @@ class Extra extends Base {
         $html.='</div>';
         return $html;
     }
+
+    public static function create(array $attributes=Array()) {
+        $fields = $attributes['fields'];
+        unset($attributes['fields']);
+        return new static (
+            $fields,
+            static::pop_arr_item($attributes, 'default'),
+            static::pop_arr_item($attributes, 'validators'),
+            $attributes
+        );
+    }
 }
