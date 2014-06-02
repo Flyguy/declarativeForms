@@ -1,6 +1,6 @@
 <?php
 namespace declarativeForms;
-
+use declarativeForms\fields\Displayed;
 /**
  * Class validators
  * @package declarativeForms\base
@@ -22,7 +22,11 @@ class validators {
     public static function _call_required(IField $field) {
         $data = $field->data();
         if(empty($data)) {
-            throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
+            if($field instanceof Displayed) {
+                throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
+            } else {
+                throw new ValidationError('Field "%1$s" is empty!', Array($field->name()));
+            }
         }
     }
 

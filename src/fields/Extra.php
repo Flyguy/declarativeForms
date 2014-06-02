@@ -1,7 +1,6 @@
 <?php
 namespace declarativeForms\fields;
 use declarativeForms\IField;
-use Traversable;
 
 class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
     /**
@@ -41,7 +40,7 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
 
     public function name() {
         $this->check_bound();
-        return $this->prefix."[".$this->name."]";
+        return $this->prefix.$this->name;
     }
 
     public function bind($prefix, $postfix, $name, $value) {
