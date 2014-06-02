@@ -1,8 +1,9 @@
 <?php
 namespace declarativeForms\fields;
 use declarativeForms\IField;
+use Traversable;
 
-class Extra extends Base {
+class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
     /**
      * @var IField[]
      */
@@ -89,5 +90,25 @@ class Extra extends Base {
             static::pop_arr_item($attributes, 'validators'),
             $attributes
         );
+    }
+
+    public function offsetExists($offset) {
+        return isset($this->fields[$offset]);
+    }
+
+    public function offsetGet($offset) {
+        return $this->fields[$offset];
+    }
+
+    public function offsetSet($offset, $value) {
+        throw new \Exception("OffsetSet don't allowed here.");
+    }
+
+    public function offsetUnset($offset) {
+        throw new \Exception("OffsetUnSet don't allowed here.");
+    }
+
+    public function getIterator() {
+        return $this->fields;
     }
 }
