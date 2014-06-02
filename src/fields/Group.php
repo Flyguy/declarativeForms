@@ -15,6 +15,10 @@ abstract class Group extends Displayed {
         $this->choices = $choices;
     }
 
+    public function get_choices() {
+        return $this->choices;
+    }
+
     public function is_multiple() {
         return $this->multiple;
     }
