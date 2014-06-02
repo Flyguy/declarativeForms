@@ -156,13 +156,27 @@ abstract class Base implements IField {
         return true;
     }
 
-    public function __toString() {
+    public function __toString(array $custom_props=Array()) {
         try {
             return $this->toString();
         } catch(\Exception $e) {
             trigger_error($e, E_USER_ERROR);
         }
         return "";
+    }
+
+    public function __invoke(array $custom_props=Array()) {
+        return $this->toString($custom_props);
+    }
+
+    protected static function render_attributes($attributes) {
+        $arr = Array();
+        foreach ($attributes as $attr => $value) {
+            if(!empty($value)) {
+                $arr[]=$attr.'="'.htmlspecialchars($value).'"';
+            }
+        }
+        return join(' ', $arr);
     }
 
     public static function create(array $attributes = array()) {

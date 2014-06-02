@@ -20,8 +20,12 @@ class Select extends Group {
         );
     }
 
-    public function toString() {
-        $select = '<select id="'.$this->id().'" name="'.$this->name().($this->multiple ? '[]" multiple':'"').'>';
+    public function toString(array $custom_props=Array()) {
+        $args = Array(
+            'id' => $this->id(),
+            'name' => $this->name().($this->multiple ? '[]':'')
+        );
+        $select = '<select '.static::render_attributes($args+$custom_props).($this->multiple ?' multiple':'"').'>';
         if(!empty($this->choices)) {
             $data = $this->data(true);
             foreach ($this->choices as $choice => $label) {

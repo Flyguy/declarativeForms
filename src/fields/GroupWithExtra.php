@@ -76,7 +76,10 @@ class GroupWithExtra extends Group implements \IteratorAggregate {
         return $this->extras;
     }
 
-    public function toString() {
+    public function toString(array $custom_args=Array()) {
+        /**
+         * @TODO: Group with extra toString method implement
+         */
         $html ='<div class="GroupWithExtra">';
         $html.=Select::toString();
         $html.='<div class="elems">';

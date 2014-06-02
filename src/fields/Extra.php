@@ -61,7 +61,7 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
         return false;
     }
 
-    public function toString() {
+    public function toString(array $custom_props=Array()) {
         $hidden_elems = Array();
         $elems = Array();
         foreach($this->fields as $field) {

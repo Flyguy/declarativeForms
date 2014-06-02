@@ -19,6 +19,6 @@ interface IField {
     public function having_validator(array $validator);
     public function get_validator_args(array $validator);
     public function get_clone($prefix, $field_name, $value, $postfix);
-    public function toString();
+    public function toString(array $custom_props=Array());
     public static function create(array $attributes=Array());
 }
