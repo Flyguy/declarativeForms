@@ -18,7 +18,7 @@ class Date extends Text {
     }
 
     public function data($default=false, $type_casting=false) {
-        if($data = $this->data($default)) {
+        if($data = parent::data($default)) {
             if(!$type_casting) {
                 return DateTime::createFromFormat($this->format, $data);
             }
