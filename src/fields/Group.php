@@ -24,14 +24,14 @@ abstract class Group extends Displayed {
     }
 
     protected function validate_choice($choice) {
-        if(!array_key_exists($choice, $this->choices)) {
+        if(!is_array($this->choices) || !array_key_exists($choice, $this->choices)) {
             throw new ValidationError('Not a valid choice in the field %1$s', Array($this->label()));
         }
     }
 
     protected static function validate_choices(Group $field) {
         $data = $field->data(true);
-        if(!empty($data)) {
+        if(empty($data)) {
             return;
         }
         if(is_array($data)) {
