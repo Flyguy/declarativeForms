@@ -106,6 +106,10 @@ abstract class Base implements IField {
         }
     }
 
+    public function assign_validator(array $validator) {
+        $this->validators[$validator[0]] = $validator[1];
+    }
+
     public function having_validator(array $validator) {
         return isset($this->validators[$validator[0]]);
     }

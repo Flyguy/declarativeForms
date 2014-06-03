@@ -16,6 +16,7 @@ interface IField {
     public function is_hidden();
     public function has_errors();
     public function is_required();
+    public function assign_validator(array $validator);
     public function having_validator(array $validator);
     public function get_validator_args(array $validator);
     public function get_clone($prefix, $field_name, $value, $postfix);
