@@ -16,8 +16,8 @@ class Date extends Text {
         return $this->format;
     }
 
-    public function data_as_datetime() {
-        if($data = $this->data(true)) {
+    public function data_as_datetime($default=false) {
+        if($data = $this->data($default)) {
             return \DateTime::createFromFormat($this->format, $data);
         }
         return NULL;
