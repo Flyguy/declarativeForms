@@ -1,6 +1,6 @@
 <?php
 namespace declarativeForms;
-use declarativeForms\fields\Displayed;
+use declarativeForms\fields;
 /**
  * Class validators
  * @package declarativeForms\base
@@ -26,7 +26,11 @@ class validators {
     }
 
     public static function _call_is_datetime(IField $field, $format='Y-m-d H:i:s') {
-        $data = $field->data();
+        if($field instanceof fields\Date) {
+            $data = $field->data(false, true);
+        } else {
+            $data = $field->data();
+        }
         if(!empty($data)) {
             $d = \DateTime::createFromFormat($format, $data);
             if(!$d || $d->format($format) != $data) {
@@ -38,7 +42,7 @@ class validators {
     public static function _call_required(IField $field) {
         $data = $field->data();
         if(empty($data)) {
-            if($field instanceof Displayed) {
+            if($field instanceof fields\Displayed) {
                 throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
             } else {
                 throw new ValidationError('Field "%1$s" is empty!', Array($field->name()));

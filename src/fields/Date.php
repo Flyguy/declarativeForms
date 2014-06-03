@@ -1,6 +1,7 @@
 <?php
 namespace declarativeForms\fields;
 use declarativeForms\validators;
+use declarativeForms\types\DateTime;
 
 class Date extends Text {
     protected $type = 'date';
@@ -16,9 +17,12 @@ class Date extends Text {
         return $this->format;
     }
 
-    public function data_as_datetime($default=false) {
+    public function data($default=false, $type_casting=false) {
         if($data = $this->data($default)) {
-            return \DateTime::createFromFormat($this->format, $data);
+            if(!$type_casting) {
+                return DateTime::createFromFormat($this->format, $data);
+            }
+            return $data;
         }
         return NULL;
     }
