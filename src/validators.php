@@ -29,7 +29,7 @@ class validators {
         $data = $field->data();
         if(!empty($data)) {
             $d = \DateTime::createFromFormat($format, $data);
-            if(!$d || $d->format($format) == $data) {
+            if(!$d || $d->format($format) != $data) {
                 throw new ValidationError('Field "%1$s" have invalid date format!', Array($field->label()));
             }
         }
