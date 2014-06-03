@@ -1,6 +1,6 @@
 <?php
 namespace declarativeForms\fields;
-use declarativeForms\ValidationError;
+use declarativeForms\ValidationError, declarativeForms\IChoices;
 
 
 abstract class Group extends Displayed {
@@ -27,7 +27,7 @@ abstract class Group extends Displayed {
     }
 
     protected function validate_choice($choice) {
-        if(!is_array($this->choices) || !array_key_exists($choice, $this->choices)) {
+        if((!is_array($this->choices) && !$this->choices instanceof IChoices) || empty($this->choices[$choice])) {
             throw new ValidationError('Not a valid choice in the field %1$s', Array($this->label()));
         }
     }
