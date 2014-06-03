@@ -17,13 +17,11 @@ class DateTime extends \DateTime {
         } else {
             $datetime = parent::createFromFormat($format, $time);
         }
-
-        if($datetime) {
-            $datetime->format = $format;
-        } else {
-            $datetime = "";
+        if(!$datetime) {
+            return NULL;
         }
-        return $datetime;
+        //Workaround here
+        return new static('@'.$datetime->format('U'), $datetime->getTimezone(), $format);
     }
 
     public function __toString() {
