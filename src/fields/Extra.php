@@ -18,7 +18,7 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function validate() {
-        $result = parent::validate();
+        $result = true;
         foreach($this->fields as $field) {
             if(!$field->validate()) {
                 if($field->is_hidden()) {
@@ -27,7 +27,7 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
                 $result = false;
             }
         }
-        return $result;
+        return $result && parent::validate();
     }
 
     public function __get($field_name) {
