@@ -31,6 +31,9 @@ abstract class Group extends Displayed {
 
     protected static function validate_choices(Group $field) {
         $data = $field->data(true);
+        if(!empty($data)) {
+            return;
+        }
         if(is_array($data)) {
             foreach($data as $choice) {
                 $field->validate_choice($choice);
