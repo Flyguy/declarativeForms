@@ -18,7 +18,9 @@ class DateTime extends \DateTime {
             $datetime = parent::createFromFormat($format, $time);
         }
 
-        $datetime->format = $format;
+        if($datetime) {
+            $datetime->format = $format;
+        }
         return $datetime;
     }
 
