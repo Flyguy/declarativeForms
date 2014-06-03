@@ -96,10 +96,12 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
             $data = Array();
         }
         $new_data = Array();
-        $fields = array_keys($this->fields);
-        foreach($fields as $field) {
-            if(array_key_exists($field, $data)) {
-                $new_data = $data[$field];
+        if(!empty($data)) {
+            $fields = array_keys($this->fields);
+            foreach($fields as $field) {
+                if(array_key_exists($field, $data)) {
+                    $new_data = $data[$field];
+                }
             }
         }
         return $new_data;
