@@ -12,7 +12,12 @@ class DateTime extends \DateTime {
     }
 
     public static function createFromFormat($format, $time, $timezone=null) {
-        $datetime = parent::createFromFormat($format, $time, $timezone);
+        if($timezone) {
+            $datetime = parent::createFromFormat($format, $time, $timezone);
+        } else {
+            $datetime = parent::createFromFormat($format, $time, $timezone);
+        }
+
         $datetime->format = $format;
         return $datetime;
     }
