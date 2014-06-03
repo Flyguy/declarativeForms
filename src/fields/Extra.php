@@ -91,6 +91,20 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
         );
     }
 
+    protected function cleanup_data($data) {
+        if(!is_array($data)) {
+            $data = Array();
+        }
+        $new_data = Array();
+        $fields = array_keys($this->fields);
+        foreach($fields as $field) {
+            if(array_key_exists($field, $data)) {
+                $new_data = $data[$field];
+            }
+        }
+        return $new_data;
+    }
+
     public function offsetExists($offset) {
         return isset($this->fields[$offset]);
     }
