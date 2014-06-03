@@ -5,6 +5,8 @@ use declarativeForms\fields\Displayed;
  * Class validators
  * @package declarativeForms\base
  * @method static array length($min_length = 0, $max_length = 0) Validating length of a string or an array
+ * @method static array is_date($date_format='Y-m-d') Validate date string
+ * @method static array is_datetime($datetime_format='Y-m-d H:i:s') Validate datetime string
  * @method static array is_email() Validate email string
  */
 class validators {
@@ -17,6 +19,20 @@ class validators {
      */
     public static final function required() {
         return array(__CLASS__.'::'.self::magic_word.'required', Array());
+    }
+
+    public static function _call_is_date(IField $field, $format='Y-m-d') {
+        static::_call_is_datetime($field, $format);
+    }
+
+    public static function _call_is_datetime(IField $field, $format='Y-m-d H:i:s') {
+        $data = $field->data();
+        if(!empty($data)) {
+            $d = \DateTime::createFromFormat($format, $data);
+            if(!$d || $d->format($format) == $data) {
+                throw new ValidationError('Field "%1$s" have invalid date format!', Array($field->label()));
+            }
+        }
     }
 
     public static function _call_required(IField $field) {
