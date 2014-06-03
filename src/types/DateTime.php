@@ -20,6 +20,8 @@ class DateTime extends \DateTime {
 
         if($datetime) {
             $datetime->format = $format;
+        } else {
+            $datetime = "";
         }
         return $datetime;
     }
