@@ -15,7 +15,7 @@ class DateTime extends \DateTime {
         if($timezone) {
             $datetime = parent::createFromFormat($format, $time, $timezone);
         } else {
-            $datetime = parent::createFromFormat($format, $time, $timezone);
+            $datetime = parent::createFromFormat($format, $time);
         }
 
         $datetime->format = $format;
