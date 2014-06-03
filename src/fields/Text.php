@@ -7,8 +7,8 @@ class Text extends Displayed {
     public function toString(array $custom_props=Array()) {
         $args = Array(
             'type' => $this->type,
-            'name' => $this->name,
-            'id' => $this->id,
+            'name' => $this->name(),
+            'id' => $this->id(),
         );
         return '<input '.static::render_attributes($args+$custom_props).' value="'.htmlspecialchars($this->data(true)).'"/>';
     }
