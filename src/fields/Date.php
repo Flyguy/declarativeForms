@@ -16,7 +16,7 @@ class Date extends Text {
 
     protected function process_default($value) {
         if(!$value instanceof \DateTime) {
-            $datetime = DateTime::createFromDateTime($value, $this->default_format);
+            $datetime = DateTime::createFromFormat($value, $this->default_format);
         } else {
             $datetime = $value;
         }
