@@ -10,6 +10,6 @@ class Text extends Displayed {
             'name' => $this->name(),
             'id' => $this->id(),
         );
-        return '<input '.static::render_attributes($args+$custom_props).' value="'.htmlspecialchars($this->data(true)).'"/>';
+        return '<input '.static::render_attributes($args+$custom_props).' value="'.htmlspecialchars($this->form_data(true)).'"/>';
     }
 }

@@ -5,28 +5,49 @@ use declarativeForms\types\DateTime;
 
 class Date extends Text {
     protected $type = 'date';
-    protected $format = 'Y-m-d';
-    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $format=null, array $extra=Array()) {
-        if($format) {
-            $this->format = $format;
+    protected $default_format = 'Y-m-d';
+    protected $display_format = 'm/d/Y';
+    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $default_format=null, $display_format=null, array $extra=Array()) {
+        if($default_format) {
+            $this->default_format = $default_format;
         }
         parent::__construct($default, $validators, $label, $hint, $extra);
     }
 
-    public function get_format() {
-        return $this->format;
+    protected function process_default($value) {
+        if(!$value instanceof \DateTime) {
+            $datetime = DateTime::createFromDateTime($value, $this->default_format);
+        } else {
+            $datetime = $value;
+        }
+        if($datetime) {
+            return $datetime->format($this->display_format);
+        }
+        return $value;
     }
 
-    public function data_as_datetime($default=false) {
-        if($data = $this->data($default)) {
-            return DateTime::createFromFormat($this->format, $data);
+    public function get_default_format() {
+        return $this->default_format;
+    }
+
+    public function get_display_format() {
+        return $this->display_format;
+    }
+
+    public function process_data($data) {
+        if($data) {
+            $data = DateTime::createFromFormat($this->display_format, $data);
+            if(!$data) {
+                return null;
+            }
+            $data->set_default_format($this->default_format);
         }
-        return NULL;
+        return $data;
     }
 
     protected function assign_standard_validators() {
         return Array(
-            validators::is_date($this->format)
+            validators::is_date($this->display_format)
         );
     }
 
@@ -36,7 +57,8 @@ class Date extends Text {
                 self::pop_arr_item($attributes, 'validators', Array()),
                 self::pop_arr_item($attributes, 'label'),
                 self::pop_arr_item($attributes, 'hint'),
-                self::pop_arr_item($attributes, 'format'),
+                self::pop_arr_item($attributes, 'default_format'),
+                self::pop_arr_item($attributes, 'display_format'),
                 $attributes
         );
     }

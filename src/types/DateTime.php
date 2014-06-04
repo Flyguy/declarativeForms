@@ -2,13 +2,17 @@
 namespace declarativeForms\types;
 
 class DateTime extends \DateTime {
-    protected $format = 'Y-m-d';
+    protected $default_format = 'Y-m-d';
 
     public function __construct($time='now', $timezone=null, $format=null) {
         if($format) {
             $this->format = $format;
         }
         parent::__construct($time, $timezone);
+    }
+
+    public function set_default_format($format) {
+        $this->default_format = $format;
     }
 
     public static function createFromFormat($format, $time, $timezone=null) {
@@ -20,11 +24,14 @@ class DateTime extends \DateTime {
         if(!$datetime) {
             return NULL;
         }
-        //Workaround here
+        return static::createFromDateTime($datetime, $format);
+    }
+
+    public static function createFromDateTime(\DateTime $datetime, $format) {
         return new static('@'.$datetime->format('U'), $datetime->getTimezone(), $format);
     }
 
     public function __toString() {
-        return $this->format($this->format);
+        return $this->format($this->default_format);
     }
 }

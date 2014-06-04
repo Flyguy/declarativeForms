@@ -21,26 +21,9 @@ class validators {
         return array(__CLASS__.'::'.self::magic_word.'required', Array());
     }
 
-    public static function _call_is_date(IField $field, $format='Y-m-d') {
-        static::_call_is_datetime($field, $format);
-    }
 
-    public static function _call_is_datetime(IField $field, $format='Y-m-d H:i:s') {
-        if($field instanceof fields\Date) {
-            $data = $field->data(false, true);
-        } else {
-            $data = $field->data();
-        }
-        if(!empty($data)) {
-            $d = \DateTime::createFromFormat($format, $data);
-            if(!$d || $d->format($format) != $data) {
-                throw new ValidationError('Field "%1$s" have invalid date format!', Array($field->label()));
-            }
-        }
-    }
-
-    public static function _call_required(IField $field) {
-        $data = $field->data();
+    public static final function _call_required(IField $field) {
+        $data = $field->form_data();
         if(empty($data)) {
             if($field instanceof fields\Displayed) {
                 throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
@@ -50,8 +33,22 @@ class validators {
         }
     }
 
+    public static function _call_is_date(IField $field, $format='Y-m-d') {
+        static::_call_is_datetime($field, $format);
+    }
+
+    public static function _call_is_datetime(IField $field, $format='Y-m-d H:i:s') {
+        $data = $field->form_data();
+        if(!empty($data)) {
+            $d = \DateTime::createFromFormat($format, $data);
+            if(!$d || $d->format($format) != $data) {
+                throw new ValidationError('Field "%1$s" have invalid date format!', Array($field->label()));
+            }
+        }
+    }
+
     public static function _call_length(IField $field, $min_length = 0, $max_length = 0) {
-        $data = $field->data();
+        $data = $field->form_data();
         if(empty($data)) {
             if($min_length > 0) {
                 static::_call_required($field);
@@ -73,7 +70,7 @@ class validators {
     }
 
     public static function _call_is_email(IField $field) {
-        $data = $field->data();
+        $data = $field->form_data();
         if(!empty($data)) {
             if(!filter_var($data, \FILTER_VALIDATE_EMAIL)) {
                 throw new ValidationError("Error3");

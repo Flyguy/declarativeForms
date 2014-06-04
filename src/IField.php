@@ -3,9 +3,11 @@ namespace declarativeForms;
 
 interface IField {
     public function raw_data();
+    public function form_data();
     public function data();
     public function id();
     public function name();
+    public function set_default($value);
     public function bind($prefix, $postfix, $name, $value);
     public function get_base_name();
     public function extra($extra);

@@ -4,11 +4,12 @@ use declarativeForms\validators;
 
 class DateTime extends Date {
     protected $type = 'datetime';
-    protected $format = 'Y-m-d H:i:s';
+    protected $default_format = DateTime::ISO8601;
+    protected $display_format = DateTime::ISO8601;
 
     protected function  assign_standard_validators() {
         return array(
-            validators::is_datetime($this->format)
+            validators::is_datetime($this->default_format)
         );
     }
 }

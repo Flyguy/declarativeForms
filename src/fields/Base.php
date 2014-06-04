@@ -9,14 +9,18 @@ abstract class Base implements IField {
     protected $name;
     protected $id;
     protected $raw_data;
+    protected $form_data;
     protected $data;
+    protected $data_processed;
     protected $extra;
     protected $default;
     protected $errors = Array();
     protected $validators = Array();
     protected $bound = false;
     public function __construct($default=null, array $validators=Array(), array $extra=Array()) {
-        $this->default = $default;
+        if($default) {
+            $this->set_default($default);
+        }
         foreach($validators as $validator) {
             $this->validators[$validator[0]] = $validator[1];
         }
@@ -28,6 +32,14 @@ abstract class Base implements IField {
                 $this->validators[$type] = $validator[1];
             }
         }
+    }
+
+    public function set_default($value) {
+        $this->default = $this->process_default($value);
+    }
+
+    protected function process_default($value) {
+        return $value;
     }
 
     public function extra($attr) {
@@ -54,13 +66,22 @@ abstract class Base implements IField {
         return $name;
     }
 
-    public function data($default=false) {
+    public function data($force_process=false) {
         $this->check_bound();
-        return (!$default || strlen($this->data)>0 ? $this->data : $this->default);
+        if(!$this->data_processed || $force_process) {
+            $this->data = $this->process_data($this->form_data());
+            $this->data_parsed = true;
+        }
+        return $this->data;
     }
 
     public function raw_data() {
         return $this->raw_data;
+    }
+
+    public function form_data($default=false) {
+        $this->check_bound();
+        return (!$default || strlen($this->form_data)>0 ? $this->form_data : $this->default);
     }
 
     protected function assign_standard_validators() {
@@ -85,7 +106,9 @@ abstract class Base implements IField {
         $this->postfix = $postfix;
         $this->name = $field_name;
         $this->raw_data = $value;
-        $this->data = $this->cleanup_data($value);
+        $this->form_data = $this->cleanup_data($value);
+        $this->data = null;
+        $this->data_processed = false;
         $this->bound = true;
     }
 
@@ -94,6 +117,10 @@ abstract class Base implements IField {
             $data = "";
         }
         return trim($data);
+    }
+
+    protected function process_data($data) {
+        return $data;
     }
 
     protected static function pop_arr_item(&$arr, $item_name, $default = null) {

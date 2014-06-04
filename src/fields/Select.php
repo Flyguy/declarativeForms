@@ -27,7 +27,7 @@ class Select extends Group {
         );
         $select = '<select '.static::render_attributes($args+$custom_props).($this->multiple ?' multiple':'').'>';
         if(!empty($this->choices)) {
-            $data = $this->data(true);
+            $data = $this->form_data(true);
             foreach ($this->choices as $choice => $label) {
                 $selected = false;
                 if($this->multiple) {

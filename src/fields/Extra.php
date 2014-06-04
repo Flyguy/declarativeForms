@@ -2,7 +2,7 @@
 namespace declarativeForms\fields;
 use declarativeForms\IField;
 
-class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
+class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
     /**
      * @var IField[]
      */
@@ -12,9 +12,24 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
      * @param mixed $default
      * @param array $validators
      */
-    public function __construct(array $fields, $default=null, array $validators=Array(), array $extra=Array()) {
+    public function __construct(array $fields, $default=null, array $validators=Array(), $label=null, $hint=null, array $extra=Array()) {
         $this->fields = $fields;
-        parent::__construct($default, $validators, $extra);
+        if($default) {
+            foreach($this->fields as $field_name => $field) {
+                if(isset($default[$field_name]) && empty($field->default)) {
+                    $field->set_default($default[$field_name]);
+                }
+            }
+        }
+        parent::__construct($default, $validators, $label, $hint, $extra);
+    }
+
+    public function data($default=false) {
+        $arr = Array();
+        foreach($this->fields as $field_name => $field) {
+            $arr[$field_name] = $field->data($default);
+        }
+        return $arr;
     }
 
     public function validate() {
@@ -65,7 +80,7 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
         $hidden_elems = Array();
         $elems = Array();
         foreach($this->fields as $field) {
-            if(!$field->is_hidden()) {
+            if($field instanceof Displayed) {
                 $elems[]='<label for="'.$field->id().'">'.$field->label().($field->is_required()?'*':"").': </label>'.$field;
             } else {
                 $hidden_elems[]=$field->toString();
@@ -87,6 +102,8 @@ class Extra extends Base implements \ArrayAccess, \IteratorAggregate {
             $fields,
             static::pop_arr_item($attributes, 'default'),
             static::pop_arr_item($attributes, 'validators'),
+            static::pop_arr_item($attributes, 'label'),
+            static::pop_arr_item($attributes, 'hint'),
             $attributes
         );
     }

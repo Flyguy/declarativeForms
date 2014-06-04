@@ -33,7 +33,7 @@ abstract class Group extends Displayed {
     }
 
     protected static function validate_choices(Group $field) {
-        $data = $field->data(true);
+        $data = $field->form_data(true);
         if(empty($data)) {
             return;
         }
@@ -63,9 +63,9 @@ abstract class Group extends Displayed {
         );
     }
 
-    public function data($default=false) {
+    public function form_data($default=false) {
         if($this->multiple) {
-            return (!$default || count($this->data)) ? $this->data : $this->default;
+            return (!$default || count($this->form_data)) ? $this->form_data : $this->default;
         } else {
             return parent::data();
         }
@@ -77,9 +77,7 @@ abstract class Group extends Displayed {
                 $data = Array();
             }
         } else {
-            if (is_array($data)) {
-                $data = null;
-            }
+            $data = parent::cleanup_data($data);
         }
         return $data;
     }
