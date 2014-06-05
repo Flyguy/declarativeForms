@@ -18,7 +18,7 @@ abstract class Base implements IField {
     protected $validators = Array();
     protected $bound = false;
     public function __construct($default=null, array $validators=Array(), array $extra=Array()) {
-        if($default) {
+        if(isset($default)) {
             $this->set_default($default);
         }
         foreach($validators as $validator) {
