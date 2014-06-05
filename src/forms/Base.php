@@ -1,5 +1,6 @@
 <?php
 namespace declarativeForms\forms;
+use declarativeForms\fields\Displayed;
 use declarativeForms\IField;
 
 abstract class Base {
@@ -101,7 +102,7 @@ abstract class Base {
         $hidden_elems = Array();
         $elems = Array();
         foreach($this->fields as $field) {
-            if(!$field->is_hidden()) {
+            if($field instanceof Displayed) {
                 $elems[]='<label for="'.$field->id().'">'.$field->label().($field->is_required()?'*':"").': </label>'.$field;
             } else {
                 $hidden_elems[]=$field->toString();

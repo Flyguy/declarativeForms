@@ -38,6 +38,10 @@ abstract class Base implements IField {
         $this->default = $this->process_default($value);
     }
 
+    public function get_default() {
+        return $this->default;
+    }
+
     protected function process_default($value) {
         return $value;
     }

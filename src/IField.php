@@ -8,6 +8,7 @@ interface IField {
     public function id();
     public function name();
     public function set_default($value);
+    public function get_default();
     public function bind($prefix, $postfix, $name, $value);
     public function get_base_name();
     public function extra($extra);
