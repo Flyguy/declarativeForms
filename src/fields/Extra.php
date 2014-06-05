@@ -14,14 +14,16 @@ class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
      */
     public function __construct(array $fields, $default=null, array $validators=Array(), $label=null, $hint=null, array $extra=Array()) {
         $this->fields = $fields;
-        if($default) {
-            foreach($this->fields as $field_name => $field) {
-                if(isset($default[$field_name]) && empty($field->default)) {
-                    $field->set_default($default[$field_name]);
-                }
+        parent::__construct($default, $validators, $label, $hint, $extra);
+    }
+
+    public function set_default($default) {
+        foreach($this->fields as $field_name => $field) {
+            if(isset($default[$field_name]) && empty($field->default)) {
+                $field->set_default($default[$field_name]);
             }
         }
-        parent::__construct($default, $validators, $label, $hint, $extra);
+        parent::set_default($default);
     }
 
     public function data($default=false) {
