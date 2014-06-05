@@ -14,6 +14,13 @@ abstract class Group extends Displayed {
         parent::__construct($default, $validators, $label,  $hint, $extra);
     }
 
+    public function set_default($default) {
+        if(!$default && $this->is_multiple()) {
+            $default = Array();
+        }
+        parent::set_default($default);
+    }
+
     public function set_choices($choices) {
         $this->choices = $choices;
     }
