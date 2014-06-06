@@ -14,4 +14,11 @@ class Boolean extends Text {
         }
         return false;
     }
+
+    public function toString(array $custom_props=Array()) {
+        if(!isset($custom_props['checked']) && $this->form_data(true)) {
+            $custom_props['checked'] = 'checked';
+        }
+        return parent::toString($custom_props);
+    }
 }
