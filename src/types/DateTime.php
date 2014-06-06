@@ -16,10 +16,13 @@ class DateTime extends \DateTime {
     }
 
     public static function createFromFormat($format, $time, $timezone=null) {
-        if($timezone) {
+        if(!$timezone) {
+            $timezone = new \DateTimeZone('UTC');
+        }
+        try {
             $datetime = parent::createFromFormat($format, $time, $timezone);
-        } else {
-            $datetime = parent::createFromFormat($format, $time);
+        } catch (\Exception $e) {
+            $datetime = null;
         }
         if(!$datetime) {
             return NULL;
