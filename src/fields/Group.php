@@ -18,8 +18,8 @@ abstract class Group extends Displayed {
         $this->choices = $choices;
     }
 
-    public function get_choices() {
-        return $this->choices;
+    public function get_choices($return_null=false) {
+        return isset($this->choices) || $return_null ? $this->choices : Array();
     }
 
     public function is_multiple() {
