@@ -3,6 +3,7 @@ namespace declarativeForms\fields;
 
 class Boolean extends Text {
     protected $type = 'checkbox';
+    protected $default = "1";
 
     protected function process_default($default) {
         return !!$default;
