@@ -14,7 +14,7 @@ interface IField {
     public function extra($extra);
     public function add_error($error);
     public function add_errors($errors);
-    public function &errors();
+    public function errors();
     public function validate();
     public function is_hidden();
     public function has_errors();

@@ -166,7 +166,7 @@ abstract class Base implements IField {
         }
     }
 
-    public function &errors() {
+    public function errors() {
         return $this->errors;
     }
 
