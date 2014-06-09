@@ -17,6 +17,7 @@ abstract class Base implements IField {
     protected $errors = Array();
     protected $validators = Array();
     protected $bound = false;
+    protected $render_attributes = array();
     public function __construct($default=null, array $validators=Array(), array $extra=Array()) {
         if(isset($default)) {
             $this->set_default($default);
@@ -137,6 +138,10 @@ abstract class Base implements IField {
         } else {
             return $default;
         }
+    }
+
+    public function assign_render_attribute($attr_name, $attr_value) {
+        $this->render_attributes[$attr_name] = $attr_value;
     }
 
     public function assign_validator(array $validator) {

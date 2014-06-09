@@ -19,6 +19,7 @@ interface IField {
     public function is_hidden();
     public function has_errors();
     public function is_required();
+    public function assign_render_attribute($attr_name, $attr_value);
     public function assign_validator(array $validator);
     public function having_validator(array $validator);
     public function get_validator_args(array $validator);

@@ -15,10 +15,12 @@ class Boolean extends Text {
         return false;
     }
     public function toString(array $custom_props=Array()) {
-        $args = Array(
-            'type' => $this->type,
-            'name' => $this->name(),
-            'id' => $this->id(),
+        $args =array_merge(
+                Array(
+                    'type' => $this->type,
+                    'name' => $this->name(),
+                    'id' => $this->id()
+                ), $this->render_attributes
         );
         if(!isset($custom_props['checked']) && $this->form_data(true)) {
             $custom_props['checked'] = 'checked';
