@@ -85,7 +85,7 @@ abstract class Base implements IField {
 
     public function form_data($default=false) {
         $this->check_bound();
-        return (!$default || strlen($this->form_data)>0 ? $this->form_data : $this->default);
+        return (!$default || $this->form_data!==null ? $this->form_data : $this->default);
     }
 
     protected function assign_standard_validators() {
@@ -110,7 +110,9 @@ abstract class Base implements IField {
         $this->postfix = $postfix;
         $this->name = $field_name;
         $this->raw_data = $value;
-        $this->form_data = $this->cleanup_data($value);
+        if($value !== null) {
+            $this->form_data = $this->cleanup_data($value);
+        }
         $this->data = null;
         $this->data_processed = false;
         $this->bound = true;

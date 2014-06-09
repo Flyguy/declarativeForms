@@ -65,7 +65,7 @@ abstract class Group extends Displayed {
 
     public function form_data($default=false) {
         if($this->multiple) {
-            return (!$default || count($this->form_data)) ? $this->form_data : $this->default;
+            return (!$default || $this->form_data!==null) ? $this->form_data : ($this->default ?  $this->default : Array());
         } else {
             return parent::form_data($default);
         }

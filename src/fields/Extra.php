@@ -26,10 +26,18 @@ class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
         parent::set_default($default);
     }
 
-    public function data($default=false) {
+    public function data() {
         $arr = Array();
         foreach($this->fields as $field_name => $field) {
-            $arr[$field_name] = $field->data($default);
+            $arr[$field_name] = $field->data();
+        }
+        return $arr;
+    }
+
+    public function form_data($default=false) {
+        $arr = Array();
+        foreach($this->fields as $field_name => $field) {
+            $arr[$field_name] = $field->form_data($default);
         }
         return $arr;
     }
