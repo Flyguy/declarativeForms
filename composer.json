@@ -9,6 +9,11 @@
             "email": "flyguy.by@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "declarativeForms\\":"src/"
+        }
+    },
     "require": {
             "php":">=5.3.23"
     }
