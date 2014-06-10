@@ -144,6 +144,10 @@ abstract class Base implements IField {
         $this->render_attributes[$attr_name] = $attr_value;
     }
 
+    public function get_render_attribute($attr_name) {
+        return isset($this->render_attributes[$attr_name]) ? $this->render_attributes[$attr_name]: NULL;
+    }
+
     public function assign_validator(array $validator) {
         $this->validators[$validator[0]] = $validator[1];
     }
