@@ -24,10 +24,10 @@ class Select extends Group {
         $args = array_merge(
                 Array(
                     'id' => $this->id(),
-                    'name' => $this->name().($this->multiple ? '[]':'')
+                    'name' => $this->name().($this->is_multiple() ? '[]':'')
                 ), $this->render_attributes
         );
-        $select = '<select '.static::render_attributes($args+$custom_props).($this->multiple ?' multiple':'').'>';
+        $select = '<select '.static::render_attributes($args+$custom_props).($this->is_multiple() ?' multiple':'').'>';
         if(!empty($this->choices)) {
             $data = $this->form_data(true);
             foreach ($this->choices as $choice => $label) {
