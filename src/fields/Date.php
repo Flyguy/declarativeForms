@@ -6,7 +6,7 @@ use declarativeForms\types;
 class Date extends Text {
     protected $type = 'date';
     protected $default_format = 'Y-m-d';
-    protected $display_format = 'd-m-Y';
+    protected $display_format = 'Y-m-d';
     public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, $default_format=null, $display_format=null, array $extra=Array()) {
         if($default_format) {
             $this->default_format = $default_format;
