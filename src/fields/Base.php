@@ -89,6 +89,11 @@ abstract class Base implements IField {
         return (!$default || $this->form_data!==null ? $this->form_data : $this->default);
     }
 
+    public function set_form_data($form_data) {
+        $this->check_bound();
+        $this->form_data = $form_data;
+    }
+
     protected function assign_standard_validators() {
         return Array();
     }
