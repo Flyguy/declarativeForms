@@ -42,7 +42,11 @@ class validators {
         if(!empty($data)) {
             $d = \DateTime::createFromFormat($format, $data);
             if(!$d || $d->format($format) != $data) {
-                throw new ValidationError('Field "%1$s" have invalid date format!', Array($field->label()));
+                if($field instanceof fields\Displayed) {
+                    throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
+                } else {
+                    throw new ValidationError('Field "%1$s" is empty!', Array($field->name()));
+                }
             }
         }
     }

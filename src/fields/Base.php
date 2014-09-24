@@ -2,6 +2,7 @@
 namespace declarativeForms\fields;
 
 use declarativeForms\IField, declarativeForms\validators, declarativeForms\ValidationError;
+use declarativeForms\ILazy;
 
 abstract class Base implements IField {
     protected $prefix;
@@ -14,6 +15,7 @@ abstract class Base implements IField {
     protected $data_processed;
     protected $extra;
     protected $default;
+    protected $raw_default;
     protected $errors = Array();
     protected $validators = Array();
     protected $bound = false;
@@ -36,10 +38,18 @@ abstract class Base implements IField {
     }
 
     public function set_default($value) {
-        $this->default = $this->process_default($value);
+        $this->raw_default = $value;
     }
 
     public function get_default() {
+        if(isset($this->raw_default)) {
+            $raw_default = $this->raw_default;
+            if($raw_default instanceof ILazy) {
+                $raw_default = $raw_default($this);
+            }
+            $this->default = $this->process_default($raw_default);
+            unset($this->raw_default);
+        }
         return $this->default;
     }
 
@@ -71,10 +81,10 @@ abstract class Base implements IField {
         return $name;
     }
 
-    public function data($force_process=false) {
+    public function data($default=True, $force_process=false) {
         $this->check_bound();
         if(!$this->data_processed || $force_process) {
-            $this->data = $this->process_data($this->form_data());
+            $this->data = $this->process_data($this->form_data($default));
             $this->data_parsed = true;
         }
         return $this->data;
@@ -86,7 +96,7 @@ abstract class Base implements IField {
 
     public function form_data($default=false) {
         $this->check_bound();
-        return (!$default || $this->form_data!==null ? $this->form_data : $this->default);
+        return (!$default || $this->form_data!==null ? $this->form_data : $this->get_default());
     }
 
     public function set_form_data($form_data) {
