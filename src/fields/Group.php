@@ -6,12 +6,9 @@ use declarativeForms\ValidationError, declarativeForms\IChoices;
 abstract class Group extends Displayed {
     protected $choices;
     protected $multiple = false;
-    public function __construct ($default=null, array $validators=Array(), $label=null, $hint=null, $choices=null, array $extra=Array()) {
-        $this->choices = $choices;
-        if(!$default && $this->is_multiple()) {
-            $default = Array();
-        }
-        parent::__construct($default, $validators, $label,  $hint, $extra);
+    public function __construct (array $attr=Array()) {
+        $this->choices = self::pop_arr_item($attr, 'choices', Array());
+        parent::__construct($attr);
     }
 
     public function set_choices($choices) {
@@ -49,17 +46,6 @@ abstract class Group extends Displayed {
     public function assign_standard_validators() {
         return array(
             Array(get_class($this).'::validate_choices', array())
-        );
-    }
-
-    public static function create(array $attributes=array()) {
-        return new static(
-                self::pop_arr_item($attributes, 'default'),
-                self::pop_arr_item($attributes, 'validators', Array()),
-                self::pop_arr_item($attributes, 'label'),
-                self::pop_arr_item($attributes, 'hint'),
-                self::pop_arr_item($attributes, 'choices'),
-                $attributes
         );
     }
 

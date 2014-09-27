@@ -9,12 +9,11 @@ class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
     protected $fields;
     /**
      * @param IField[] $extra_fields
-     * @param mixed $default
-     * @param array $validators
+     * @param array $attributes
      */
-    public function __construct(array $fields, $default=null, array $validators=Array(), $label=null, $hint=null, array $extra=Array()) {
+    public function __construct(array $fields, array $attributes=Array()) {
         $this->fields = $fields;
-        parent::__construct($default, $validators, $label, $hint, $extra);
+        parent::__construct($attributes);
     }
 
     public function set_default($default) {
@@ -105,17 +104,8 @@ class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
         return $html;
     }
 
-    public static function create(array $attributes=Array()) {
-        $fields = $attributes['fields'];
-        unset($attributes['fields']);
-        return new static (
-            $fields,
-            static::pop_arr_item($attributes, 'default'),
-            static::pop_arr_item($attributes, 'validators'),
-            static::pop_arr_item($attributes, 'label'),
-            static::pop_arr_item($attributes, 'hint'),
-            $attributes
-        );
+    public static function create(array $fields, array $attributes=Array()) {
+        return new static ($fields, $attributes);
     }
 
     protected function cleanup_data($data) {

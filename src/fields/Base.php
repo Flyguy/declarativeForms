@@ -1,8 +1,8 @@
 <?php
 namespace declarativeForms\fields;
 
-use declarativeForms\IField, declarativeForms\validators, declarativeForms\ValidationError;
-use declarativeForms\ILazy;
+use declarativeForms\IField, declarativeForms\ILazy, declarativeForms\validators, declarativeForms\ValidationError;
+
 
 abstract class Base implements IField {
     protected $prefix;
@@ -20,14 +20,16 @@ abstract class Base implements IField {
     protected $validators = Array();
     protected $bound = false;
     protected $render_attributes = array();
-    public function __construct($default=null, array $validators=Array(), array $extra=Array()) {
+    public function __construct(array $attr=Array()) {
+        $default = self::pop_arr_item($attr, 'default');
         if(isset($default)) {
             $this->set_default($default);
         }
+        $validators = self::pop_arr_item($attr, 'validators', Array());
         foreach($validators as $validator) {
             $this->validators[$validator[0]] = $validator[1];
         }
-        $this->extra = $extra;
+        $this->extra = $attr;
         $standard_validators = $this->assign_standard_validators();
         foreach($standard_validators as $validator) {
             $type = $validator[0];
@@ -37,6 +39,9 @@ abstract class Base implements IField {
         }
     }
 
+    /**
+     * @param ILazy|mixed $value
+     */
     public function set_default($value) {
         $this->raw_default = $value;
     }
@@ -238,8 +243,6 @@ abstract class Base implements IField {
 
     public static function create(array $attributes = array()) {
         return new static(
-                self::pop_arr_item($attributes, 'default'),
-                self::pop_arr_item($attributes, 'validators', Array()),
                 $attributes
         );
     }

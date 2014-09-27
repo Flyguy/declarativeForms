@@ -5,10 +5,10 @@ namespace declarativeForms\fields;
 abstract class Displayed extends Base {
     protected $label;
     protected $hint;
-    public function __construct($default=null, array $validators=Array(), $label=null, $hint=null, array $extra=Array()) {
-        $this->label = $label;
-        $this->hint  = $hint;
-        parent::__construct($default, $validators, $extra);
+    public function __construct(array $attr=Array()) {
+        $this->label = self::pop_arr_item($attr, 'label');
+        $this->hint  = self::pop_arr_item($attr, 'hint');
+        parent::__construct($attr);
     }
 
     public function generateLabel($name) {
@@ -26,15 +26,5 @@ abstract class Displayed extends Base {
 
     public function is_hidden() {
         return false;
-    }
-
-    public static function create(array $attributes = array()) {
-        return new static(
-                self::pop_arr_item($attributes, 'default'),
-                self::pop_arr_item($attributes, 'validators', Array()),
-                self::pop_arr_item($attributes, 'label'),
-                self::pop_arr_item($attributes, 'hint'),
-                $attributes
-        );
     }
 }
