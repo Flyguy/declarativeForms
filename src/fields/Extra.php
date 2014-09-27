@@ -104,10 +104,6 @@ class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
         return $html;
     }
 
-    public static function create(array $fields, array $attributes=Array()) {
-        return new static ($fields, $attributes);
-    }
-
     protected function cleanup_data($data) {
         if(!is_array($data)) {
             $data = Array();

@@ -241,9 +241,8 @@ abstract class Base implements IField {
         return join(' ', $arr);
     }
 
-    public static function create(array $attributes = array()) {
-        return new static(
-                $attributes
-        );
+    public static function create() {
+        $class = new \ReflectionClass(get_called_class());
+        return $class->newInstanceArgs(func_get_args());
     }
 }
