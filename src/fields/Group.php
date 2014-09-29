@@ -7,7 +7,7 @@ abstract class Group extends Displayed {
     protected $choices;
     protected $multiple = false;
     public function __construct (array $attr=Array()) {
-        $this->choices = self::pop_arr_item($attr, 'choices', Array());
+        $this->choices = self::pop_arr_item($attr, 'choices');
         parent::__construct($attr);
     }
 
