@@ -1,6 +1,6 @@
 <?php
 namespace declarativeForms\fields;
-use declarativeForms\IField;
+use declarativeForms\IField, declarativeForms\ILazy, declarativeForms\Lazy;
 
 class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
     /**
@@ -17,18 +17,30 @@ class Extra extends Displayed implements \ArrayAccess, \IteratorAggregate {
     }
 
     public function set_default($default) {
-        foreach($this->fields as $field_name => $field) {
-            if(isset($default[$field_name]) && empty($field->default)) {
-                $field->set_default($default[$field_name]);
+        if($default instanceof ILazy) {
+            throw new \Exception("Lazy defaults for Extra field is not supported!");
+        } else {
+            foreach($this->fields as $field_name => $field) {
+                if(isset($default[$field_name]) && empty($field->default)) {
+                    $field->set_default($default[$field_name]);
+                }
             }
         }
-        parent::set_default($default);
     }
 
-    public function data() {
+    public function set_form_data($data) {
+        $this->check_bound();
+        foreach($this->fields as $field_name => $field) {
+            if(isset($data[$field_name])) {
+                $field->set_form_data($data[$field_name]);
+            }
+        }
+    }
+
+    public function data($default=True, $force_process=false) {
         $arr = Array();
         foreach($this->fields as $field_name => $field) {
-            $arr[$field_name] = $field->data();
+            $arr[$field_name] = $field->data($default, $force_process);
         }
         return $arr;
     }
