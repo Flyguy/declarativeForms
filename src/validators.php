@@ -3,11 +3,14 @@ namespace declarativeForms;
 use declarativeForms\fields;
 /**
  * Class validators
- * @package declarativeForms\base
+ * @package declarativeForms
  * @method static array length($min_length = 0, $max_length = 0) Validating length of a string or an array
  * @method static array is_date($date_format='Y-m-d') Validate date string
  * @method static array is_datetime($datetime_format='Y-m-d H:i:s') Validate datetime string
  * @method static array is_email() Validate email string
+ * @method static array is_url Validate url string
+ * @method static array is_number Validate string as float
+ * @method static array is_integer Validate string as integer
  */
 class validators {
     const magic_word = '_call_';
@@ -25,11 +28,7 @@ class validators {
     public static final function _call_required(IField $field) {
         $data = $field->form_data();
         if(empty($data)) {
-            if($field instanceof fields\Displayed) {
-                throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
-            } else {
-                throw new ValidationError('Field "%1$s" is empty!', Array($field->name()));
-            }
+            throw new ValidationError('Field "%1$s" is empty!', $field);
         }
     }
 
@@ -42,11 +41,7 @@ class validators {
         if(!empty($data)) {
             $d = \DateTime::createFromFormat($format, $data);
             if(!$d || $d->format($format) != $data) {
-                if($field instanceof fields\Displayed) {
-                    throw new ValidationError('Field "%1$s" is empty!', Array($field->label()));
-                } else {
-                    throw new ValidationError('Field "%1$s" is empty!', Array($field->name()));
-                }
+                throw new ValidationError('Field "%1$s" is empty!', $field);
             }
         }
     }
@@ -66,10 +61,10 @@ class validators {
             }
         }
         if ($max_length && $max_length < $length) {
-            throw new ValidationError("Error");
+            throw new ValidationError('Field length "%1$s" must be less than %2$i', $field, $length);
         }
         if ($min_length && $min_length > $length) {
-            throw new ValidationError("Error2");
+            throw new ValidationError('Field length "%1$s" must be greater than %2$i', $field, $length);
         }
     }
 
@@ -77,7 +72,34 @@ class validators {
         $data = $field->form_data();
         if(!empty($data)) {
             if(!filter_var($data, \FILTER_VALIDATE_EMAIL)) {
-                throw new ValidationError("Error3");
+                throw new ValidationError('Invalid data in "%1$s"', $field);
+            }
+        }
+    }
+
+    public static function _call_is_url(IField $field) {
+        $data = $field->form_data();
+        if(!empty($data)) {
+            if(!filter_var($data, \FILTER_VALIDATE_URL)) {
+                throw new ValidationError('Invalid data in "%1$s"', $field);
+            }
+        }
+    }
+
+    public static function _call_is_number(IField $field) {
+        $data = $field->form_data();
+        if(!empty($data)) {
+            if(!filter_var($data, \FILTER_VALIDATE_FLOAT)) {
+                throw new ValidationError('Invalid data in "%1$s"', $field);
+            }
+        }
+    }
+
+    public static function _call_is_integer(IField $field) {
+        $data = $field->form_data();
+        if(!empty($data)) {
+            if(!filter_var($data, \FILTER_VALIDATE_INT)) {
+                throw new ValidationError('Invalid data in "%1$s"', $field);
             }
         }
     }
