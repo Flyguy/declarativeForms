@@ -48,23 +48,18 @@ class validators {
 
     public static function _call_length(IField $field, $min_length = 0, $max_length = 0) {
         $data = $field->form_data();
-        if(empty($data)) {
-            if($min_length > 0) {
-                static::_call_required($field);
-            }
-            $length = 0;
-        } else {
+        if(!empty($data)) {
             if(is_array($data)) {
                 $length = count($data);
             } else {
                 $length = strlen($data);
             }
-        }
-        if ($max_length && $max_length < $length) {
-            throw new ValidationError('Field length "%1$s" must be less than %2$i', $field, $length);
-        }
-        if ($min_length && $min_length > $length) {
-            throw new ValidationError('Field length "%1$s" must be greater than %2$i', $field, $length);
+            if ($max_length && $max_length < $length) {
+                throw new ValidationError('Field length "%1$s" must be less than %2$i', $field, $length);
+            }
+            if ($min_length && $min_length > $length) {
+                throw new ValidationError('Field length "%1$s" must be greater than %2$i', $field, $length);
+            }
         }
     }
 
