@@ -212,7 +212,7 @@ abstract class Base implements IField {
                 array_unshift($args, $this);
                 call_user_func_array($type, $args);
             } catch(ValidationError $e) {
-                $errors[] = $e->get_error();
+                $errors[] = $e;
             }
         }
         if(!empty($errors)) {
